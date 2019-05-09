@@ -1,0 +1,7 @@
+package springboot.car_information;
+
+import org.springframework.data.repository.CrudRepository;
+
+public interface CarRepository extends CrudRepository<Information, String>{
+
+}
