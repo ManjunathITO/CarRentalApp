@@ -1,0 +1,59 @@
+package springboot.car_information;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class InformationService {
+
+	@Autowired
+	private CarRepository crudobj;
+	
+	
+	private List<Information>  informations = new ArrayList<>( Arrays.asList(
+			new Information("hatchback","Hyundai Grand i10",4,10000,20,560049,884699548,"abc@gamil.com"),
+			new Information("sedan","verna",5,20000,18,560048,988668323,"xyz@gamil.com"),
+			new Information("suv","fortuner",7,30000,15,560047,886774007,"abc@gamil.com")
+     ));
+	
+	public List<Information> getAllInformation()
+	{
+		List<Information> informations = new ArrayList<>();
+		crudobj.findAll().forEach(informations::add);
+		return informations;
+	}
+
+	public void addinformation(Information information)
+	{
+		crudobj.save(information) ;
+	}
+
+	public Information getInformation(String type) {
+		/*for (int i = 0; i < informations.size(); i++) {
+			information t = informations.get(i);
+			if(t.getType().equals(type)) {
+				return informations.get(i);
+			}
+		}*/
+		return crudobj.findOne(type);
+	}
+
+	public void updateinformation(String type, Information information) {
+		/*for (int i = 0; i < informations.size(); i++) {
+			information t = informations.get(i);
+			if(t.getType().equals(type)) {
+			informations.set(i, information);
+			}
+		}*/
+		crudobj.save(information) ;
+	}
+
+	public void deleteinformation(String type) {
+		informations.removeIf(t -> t.getType().equals(type));
+		crudobj.delete(type);
+	}
+}
